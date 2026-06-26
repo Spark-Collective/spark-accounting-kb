@@ -32,14 +32,17 @@ Last updated: 2026-06-26
 ### corporate-tax/
 - [[corporate-tax-basics]] , 25% standard, 20% on first EUR 100k for small companies + conditions (verify_live).
 - [[advance-payments]] , quarterly prepayment to avoid the surcharge (verify_live).
-- _planned: dbi-deduction, vvpr-bis-dividends, notional-interest_
+- [[vvpr-bis-dividends]] , reduced dividend withholding 15% (18% from 1 Jul 2026) + conditions (verify_live).
+- _planned: dbi-deduction, liquidation-reserve, notional-interest_
 
 ### payroll-director/
 - [[social-contributions-self-employed]] , RSVZ social contributions for self-employed/director (verify_live).
-- _planned: director-remuneration, benefits-in-kind-VAA, salary-vs-dividend-vvpr-bis_
+- [[director-remuneration]] , salary vs dividend; the EUR 45k threshold (verify_live).
+- _planned: benefits-in-kind-VAA_
 
 ### year-end/
-- _planned: annual-accounts-nbb, depreciation, provisions, closing-entries_
+- [[annual-accounts-nbb]] , filing model, 7-month deadline, XBRL, 2026 fees (verify_live).
+- _planned: depreciation, provisions, closing-entries_
 
 ### workflows/ (SOPs the agent runs)
 - [[vat-period-prep]] , prepare a periodic VAT return for review (never auto-file).
