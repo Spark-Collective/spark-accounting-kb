@@ -23,7 +23,10 @@ Last updated: 2026-06-26
 - [[car-and-mobility]] , deductibility of car/mobility costs (verify_live).
 - [[restaurant-and-meals]] , restaurant ~69%, business lunch, VAT not deductible (verify_live).
 - [[ict-equipment]] , iPad/tablet/laptop 100%, VAT ~75%, VAA (verify_live).
-- _planned: gifts-and-relations, home-office, clothing, sponsoring, streaming-subscriptions_
+- [[sponsoring]] , 100% for publicity, 50% for benefits (representation) (verify_live).
+- [[streaming-subscriptions]] , Spotify etc. only if genuinely professional (verify_live).
+- [[reading-glasses]] , up to 50%, dual-use scrutiny (verify_live).
+- _planned: gifts-and-relations, home-office, clothing, international-passport, kilometer-allowance_
 
 ### corporate-tax/
 - _planned: vennootschapsbelasting-basics, voorafbetalingen (advance payments)_
