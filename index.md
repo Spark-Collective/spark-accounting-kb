@@ -18,6 +18,7 @@ Last updated: 2026-06-26
 
 ### vat/
 - [[vat-rates-and-regimes]] , VAT rates, the small-enterprise exemption, special regimes (verify_live).
+- [[vat-deduction-conditions]] , when input VAT is recoverable (professional, correct invoice, right to deduct).
 - [[periodic-vat-return-intervat]] , the periodic BTW return + how it is filed.
 - [[intracommunity-and-medecontractant]] , reverse charge: 0% invoice + mandatory mentions (verify_live).
 - [[peppol-e-invoicing]] , structured B2B e-invoicing mandatory from 2026 (verify_live).
@@ -53,7 +54,8 @@ Last updated: 2026-06-26
 - [[vat-period-prep]] , prepare a periodic VAT return for review (never auto-file).
 - [[booking-a-purchase-invoice]] , capture, split VAT, classify deductibility, book.
 - [[month-end-close]] , monthly routine to get the books complete + reconciled.
-- _planned: coda-bank-reconciliation, expense-categorization_
+- [[coda-bank-reconciliation]] , import the CODA file, match lines, tie the bank balance.
+- [[expense-categorization]] , route a cost to account + deductibility + VAT treatment.
 
 ## Reserved files
 
