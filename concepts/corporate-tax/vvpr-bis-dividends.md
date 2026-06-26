@@ -37,6 +37,6 @@ VVPR-bis vs liquidation reserve vs salary is the core payout-planning decision t
 
 ## See also
 
-[[director-remuneration]] · [[corporate-tax-basics]] · [[company-size-criteria]]
+[[director-remuneration]] · [[corporate-tax-basics]] · [[company-size-criteria]] · [[distribution-test]] (legal gate before any payout)
 
 Source: linkup search synthesis; verify against FOD Financiën (rate change effective 1 July 2026).

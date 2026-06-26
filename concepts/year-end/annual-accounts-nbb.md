@@ -40,6 +40,6 @@ This is a hard annual deadline with an automatic penalty , a scheduled agent tas
 
 ## See also
 
-[[company-size-criteria]] · [[corporate-tax-basics]] · [[chart-of-accounts-mar]]
+[[company-size-criteria]] · [[corporate-tax-basics]] · [[chart-of-accounts-mar]] · [[valuation-rules]] · [[depreciation]] · [[provisions]]
 
 Source: linkup search synthesis; verify against NBB.

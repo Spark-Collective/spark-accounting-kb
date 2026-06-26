@@ -75,6 +75,8 @@ Distilled CBN/CNC adviezen that ground the practice pages (citation substrate, n
 - [[depreciation]] , CBN principles for depreciating fixed assets (linear/degressive, economic life).
 - [[provisions]] , CBN principles for provisions for risks and charges (prudence; art. 33 KB W.Venn.).
 - [[distribution-test]] , the WVV net-asset + liquidity tests a BV must pass before any payout.
+- [[valuation-rules]] , going concern, acquisition value, consistency, prudence (the valuation frame).
+- [[size-criteria]] , the legal source of small/micro thresholds (WVV art. 1:24/1:25) (verify_live).
 
 ## Reserved files
 

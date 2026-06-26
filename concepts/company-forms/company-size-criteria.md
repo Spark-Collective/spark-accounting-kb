@@ -29,6 +29,6 @@ Size drives the [[annual-accounts-nbb|annual-accounts model]] (planned), the dis
 
 ## See also
 
-[[eenmanszaak-vs-vennootschap]] · [[chart-of-accounts-mar]]
+[[eenmanszaak-vs-vennootschap]] · [[chart-of-accounts-mar]] · [[size-criteria]] (legal source: WVV art. 1:24/1:25)
 
 Source: Grok research synthesis; verify against NBB / CBN / FPS Economy.
