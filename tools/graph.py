@@ -9,11 +9,13 @@ Usage:
 
 Wikilinks are for reading; `relations:` is the machine-traversable layer. See AGENTS.md.
 """
-import os, re, sys, argparse
+import os, re, sys, argparse, json
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIRS = ["concepts", "references"]
 VOCAB = {"requires", "unlocks", "gates", "grounded_by", "affects", "alternative_to", "part_of"}
+REPO_URL = "https://github.com/Spark-Collective/accounting-knowledge-graph"
+BRANCH = "main"
 REQUIRED_FM = {"type", "title", "description", "tags", "sources", "confidence",
                "created", "updated", "verify_live", "review_after"}
 
@@ -122,13 +124,111 @@ def cmd_lint():
     print(f"OK , all pages have the required frontmatter and >=2 wikilinks.")
     return 0
 
+# --- JSON + interactive viewer export -------------------------------------
+
+def _frontmatter(path):
+    """Flat scalar frontmatter dict for a page."""
+    with open(path, encoding="utf-8") as fh:
+        lines = fh.read().splitlines()
+    fm = {}
+    if not lines or lines[0].strip() != "---":
+        return fm
+    end = next((i for i in range(1, len(lines)) if lines[i].strip() == "---"), len(lines))
+    for ln in lines[1:end]:
+        m = re.match(r"^([A-Za-z_]+):\s*(.*)$", ln)
+        if m:
+            fm[m.group(1)] = m.group(2).strip().strip('"')
+    return fm
+
+def _category(path):
+    parts = os.path.relpath(path, ROOT).split(os.sep)
+    if parts[0] == "concepts" and len(parts) >= 3:
+        return parts[1]
+    if parts[0] == "references":
+        return "references"
+    return parts[0]
+
+def _wikilinks(path):
+    """Body [[wikilink]] targets (the human reading layer)."""
+    name = os.path.basename(path)[:-3]
+    with open(path, encoding="utf-8") as fh:
+        body = fh.read()
+    return name, {m.group(1).strip() for m in re.finditer(r"\[\[([^\]|#]+)", body)
+                  if m.group(1).strip() and m.group(1).strip() != name}
+
+def build_graph_json():
+    """Nodes (with category/title/meta) + links: typed edges (relations:) AND
+    wikilink edges. Both layers, so a viewer can show the reading layer plus the
+    typed layer agents traverse."""
+    meta = {}
+    for p in md_files():
+        n = os.path.basename(p)[:-3]
+        fm = _frontmatter(p)
+        meta[n] = {
+            "id": n, "title": fm.get("title", n), "category": _category(p),
+            "path": os.path.relpath(p, ROOT),
+            "verify_live": str(fm.get("verify_live", "")).lower() == "true",
+            "confidence": fm.get("confidence", ""),
+        }
+    known = set(meta)
+    links, seen_wiki = [], set()
+    for p in md_files():
+        n, rels = parse(p)
+        for pred, targets in rels.items():
+            for t in targets:
+                if t in known:
+                    links.append({"source": n, "target": t, "kind": "typed", "predicate": pred})
+        wn, wls = _wikilinks(p)
+        for t in wls:
+            if t in known:
+                key = tuple(sorted((wn, t)))
+                if key not in seen_wiki:
+                    seen_wiki.add(key)
+                    links.append({"source": wn, "target": t, "kind": "wikilink"})
+    deg = {n: 0 for n in known}
+    for l in links:
+        deg[l["source"]] += 1; deg[l["target"]] += 1
+    nodes = []
+    for n in sorted(known):
+        d = dict(meta[n]); d["degree"] = deg[n]; nodes.append(d)
+    return {
+        "nodes": nodes, "links": links,
+        "meta": {"repo": REPO_URL, "branch": BRANCH, "node_count": len(nodes),
+                 "typed_edges": sum(1 for l in links if l["kind"] == "typed"),
+                 "wikilinks": sum(1 for l in links if l["kind"] == "wikilink")},
+    }
+
+def cmd_json(outpath):
+    data = json.dumps(build_graph_json(), ensure_ascii=False, separators=(",", ":"))
+    if outpath:
+        with open(outpath, "w", encoding="utf-8") as f:
+            f.write(data)
+        print(f"wrote {outpath}")
+    else:
+        print(data)
+
+def cmd_html(outpath):
+    tpl = os.path.join(os.path.dirname(__file__), "viewer", "template.html")
+    with open(tpl, encoding="utf-8") as f:
+        html = f.read()
+    data = json.dumps(build_graph_json(), ensure_ascii=False, separators=(",", ":"))
+    html = html.replace("/*__GRAPH__*/", data)
+    out = outpath or os.path.join(os.path.dirname(__file__), "viewer", "graph.html")
+    with open(out, "w", encoding="utf-8") as f:
+        f.write(html)
+    print(f"wrote {out} (self-contained, open it directly)")
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--node")
     ap.add_argument("--validate", action="store_true")
     ap.add_argument("--lint", action="store_true")
     ap.add_argument("--dot", action="store_true")
+    ap.add_argument("--json", nargs="?", const="", metavar="OUT", help="emit graph JSON (typed + wikilink layers)")
+    ap.add_argument("--html", nargs="?", const="", metavar="OUT", help="render the self-contained interactive viewer")
     a = ap.parse_args()
+    if a.json is not None: cmd_json(a.json); return
+    if a.html is not None: cmd_html(a.html); return
     nodes, edges = build()
     if a.lint: sys.exit(cmd_lint())
     if a.validate: sys.exit(cmd_validate(nodes, edges))

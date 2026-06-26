@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Belgian accounting, as a knowledge graph</title>
+<script src="https://unpkg.com/force-graph"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;800&family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    color-scheme: dark;
+    --bg: #15120D;            /* warm near-black (Spark spark-os bg) */
+    --fg: #F2EFEA;            /* warm near-white */
+    --dim: #A39B8C; --faint: #6B6457;
+    --amber: #E6A23C;         /* Spark signal-amber accent */
+    --line: #2B271F;
+    --sans: "Geist", ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif;
+    --serif: "Instrument Serif", "Iowan Old Style", Georgia, serif;
+    --mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg);
+    font-family: var(--sans); overflow: hidden; }
+  #graph { position: fixed; inset: 0; }
+  #vignette { position: fixed; inset: 0; pointer-events: none; z-index: 1;
+    background: radial-gradient(ellipse at center, transparent 52%, rgba(0,0,0,0.55) 100%); }
+  .panel { position: fixed; z-index: 5; background: rgba(28,24,18,0.66);
+    backdrop-filter: blur(9px); border: 1px solid var(--line); border-radius: 12px; }
+  #head { top: 20px; left: 22px; padding: 16px 20px; max-width: 460px; }
+  #head h1 { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 34px;
+    line-height: 1.04; letter-spacing: 0.2px; }
+  #head .rule { width: 54px; height: 3px; background: var(--amber); border-radius: 2px; margin: 10px 0 8px; }
+  #head p { margin: 0; font-family: var(--mono); font-size: 12.5px; color: var(--dim); letter-spacing: 0.3px; }
+  /* Spark brand lockup */
+  #brand { top: 22px; right: 24px; display: flex; align-items: center; gap: 10px;
+    padding: 10px 14px; }
+  #brand svg { width: 30px; height: 30px; display: block; }
+  #brand .wm { font-weight: 600; font-size: 17px; letter-spacing: 0.2px; }
+  #brand .wm small { display: block; font-family: var(--mono); font-weight: 400;
+    font-size: 9.5px; color: var(--faint); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 1px; }
+  #search { bottom: 22px; right: 24px; padding: 8px; }
+  #search input { background: var(--bg); border: 1px solid var(--line); color: var(--fg);
+    border-radius: 8px; padding: 8px 12px; width: 200px; font-size: 13px; font-family: var(--sans); outline: none; }
+  #search input:focus { border-color: var(--amber); }
+  #legend { bottom: 22px; left: 22px; padding: 13px 16px; font-size: 12px; max-width: 360px; }
+  #legend .row { display: flex; flex-wrap: wrap; gap: 9px 14px; }
+  #legend .k { display: inline-flex; align-items: center; gap: 6px; color: var(--dim); }
+  #legend .dot { width: 10px; height: 10px; border-radius: 50%; }
+  #legend .ln { width: 16px; height: 0; border-top: 2px solid; }
+  #legend h4 { margin: 0 0 7px; font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+    letter-spacing: 1.4px; color: var(--faint); font-weight: 600; }
+  #legend .sub { margin-top: 11px; }
+  #foot { display: none; bottom: 22px; left: 50%; transform: translateX(-50%);
+    padding: 8px 16px; font-family: var(--mono); font-size: 12px; color: var(--dim); }
+  #foot b { color: var(--fg); font-weight: 600; }
+  /* poster / image mode: cleaner, branded, only core labels */
+  body.poster #search, body.poster #legend .sub, body.poster #vignette { }
+  body.poster #search { display: none; }
+  body.poster #foot { display: block; }
+  body.poster #legend { bottom: 22px; }
+  body.poster #legend .sub { display: none; }
+</style>
+</head>
+<body>
+<div id="graph"></div>
+<div id="vignette"></div>
+
+<div id="head" class="panel">
+  <h1>Belgian accounting,<br>as a knowledge graph</h1>
+  <div class="rule"></div>
+  <p id="sub"></p>
+</div>
+
+<div id="brand" class="panel">
+  <svg viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Spark">
+    <circle cx="11" cy="11" r="10" stroke="#F2EFEA" stroke-opacity="0.35" stroke-dasharray="2 3"/>
+    <circle cx="11" cy="11" r="5.5" stroke="#E6A23C" stroke-opacity="0.85" stroke-dasharray="30 4.6"/>
+    <circle cx="11" cy="11" r="2" fill="#F2EFEA"/>
+  </svg>
+  <span class="wm">Spark<small>built in the open</small></span>
+</div>
+
+<div id="search" class="panel"><input id="q" type="text" placeholder="Search a concept…" autocomplete="off"></div>
+
+<div id="legend" class="panel">
+  <h4>Concept areas</h4>
+  <div class="row" id="catLegend"></div>
+  <div class="sub">
+    <h4>Typed edges (the layer agents traverse)</h4>
+    <div class="row" id="predLegend"></div>
+  </div>
+</div>
+
+<div id="foot" class="panel"><span id="footText"></span></div>
+
+<script>
+const GRAPH = /*__GRAPH__*/;
+
+const CAT = {
+  "company-forms": "#F2784B", "bookkeeping": "#5AB7E0", "vat": "#46C99A",
+  "deductible-costs": "#E6A23C", "remuneration": "#B98AE6", "workflows": "#E27AB0",
+  "year-end": "#E0843C", "tax": "#3FBFC9", "social": "#9FC65A", "references": "#8A8474",
+};
+const PRED = {
+  requires: "#E8736B", unlocks: "#46C99A", gates: "#E6A23C", grounded_by: "#5A9BE0",
+  affects: "#B98AE6", alternative_to: "#E27AB0", part_of: "#3FBFC9",
+};
+const BG = "#15120D";
+const catColor = c => CAT[c] || "#7A7464";
+const lid = e => (typeof e === "object" ? e.id : e);
+
+const data = GRAPH && GRAPH.nodes ? GRAPH : { nodes: [], links: [], meta: {} };
+const meta = data.meta || {};
+const POSTER = new URLSearchParams(location.search).has("poster");
+if (POSTER) document.body.classList.add("poster");
+
+document.getElementById("sub").textContent =
+  `${meta.node_count || data.nodes.length} concepts · ${meta.wikilinks || 0} wikilinks · ${meta.typed_edges || 0} typed edges`;
+document.getElementById("footText").innerHTML =
+  `Open knowledge graph · <b>github.com/Spark-Collective/accounting-knowledge-graph</b> · Apache-2.0`;
+
+// core hubs = top nodes by degree (the only ones labeled in poster mode)
+const core = new Set([...data.nodes].sort((a, b) => b.degree - a.degree).slice(0, 9).map(n => n.id));
+
+const usedCats = [...new Set(data.nodes.map(n => n.category))].filter(c => CAT[c]);
+document.getElementById("catLegend").innerHTML = usedCats.map(c =>
+  `<span class="k"><span class="dot" style="background:${CAT[c]}"></span>${c}</span>`).join("");
+document.getElementById("predLegend").innerHTML = Object.keys(PRED).map(p =>
+  `<span class="k"><span class="ln" style="border-color:${PRED[p]}"></span>${p}</span>`).join("");
+
+let hoverNode = null;
+const hl = new Set();
+const adj = new Map();
+data.links.forEach(l => {
+  const s = lid(l.source), t = lid(l.target);
+  (adj.get(s) || adj.set(s, new Set()).get(s)).add(t);
+  (adj.get(t) || adj.set(t, new Set()).get(t)).add(s);
+});
+
+const el = document.getElementById("graph");
+const Graph = ForceGraph()(el)
+  .graphData(data)
+  .backgroundColor(BG)
+  .nodeId("id")
+  .nodeRelSize(3.4)
+  .nodeVal(n => 1 + n.degree)
+  .nodeLabel(n => `${n.title}${n.verify_live ? " · verify live" : ""}`)
+  .nodeColor(n => (hoverNode && !hl.has(n.id)) ? "#322D24" : catColor(n.category))
+  .linkColor(l => {
+    const dim = hoverNode && !(hl.has(lid(l.source)) && hl.has(lid(l.target)));
+    if (l.kind === "typed") return dim ? "rgba(120,112,96,0.10)" : (PRED[l.predicate] || "#888");
+    return dim ? "rgba(120,112,96,0.05)" : "rgba(150,142,120,0.16)";
+  })
+  .linkWidth(l => l.kind === "typed" ? 1.8 : 0.6)
+  .linkDirectionalArrowLength(l => l.kind === "typed" ? 4.5 : 0)
+  .linkDirectionalArrowRelPos(1)
+  .linkDirectionalParticles(l => (hoverNode && l.kind === "typed" && hl.has(lid(l.source)) && hl.has(lid(l.target))) ? 2 : 0)
+  .onNodeHover(node => {
+    hl.clear();
+    hoverNode = node || null;
+    if (node) { hl.add(node.id); (adj.get(node.id) || []).forEach(n => hl.add(n)); }
+    el.style.cursor = node ? "pointer" : null;
+  })
+  .onNodeClick(node => {
+    if (meta.repo && node.path) window.open(`${meta.repo}/blob/${meta.branch || "main"}/${node.path}`, "_blank");
+  });
+
+// spread the dense wikilink mesh out: stronger repulsion, longer links, and weak
+// wikilink link strength so the faint mesh does not ball everything up.
+Graph.d3Force("charge").strength(-230);
+Graph.d3Force("link").distance(l => l.kind === "typed" ? 70 : 34).strength(l => l.kind === "typed" ? 0.5 : 0.06);
+Graph.onEngineStop(() => Graph.zoomToFit(500, POSTER ? 140 : 80));
+
+// labels on top of everything, with pill backgrounds and a greedy overlap-skip
+// (highest-degree wins) so nothing collides.
+Graph.onRenderFramePost((ctx, scale) => {
+  const placed = [];
+  const cand = data.nodes
+    .filter(n => POSTER ? core.has(n.id) : (n.degree >= 6 || scale > 2.2 || hl.has(n.id)))
+    .sort((a, b) => b.degree - a.degree);
+  ctx.textAlign = "center"; ctx.textBaseline = "middle";
+  for (const node of cand) {
+    if (node.x == null) continue;
+    const big = node.degree >= (POSTER ? 8 : 6);
+    const fs = (big ? 13 : 10) / scale;
+    ctx.font = `${big ? "600 " : ""}${fs}px Geist, -apple-system, sans-serif`;
+    const label = node.title || node.id;
+    const w = ctx.measureText(label).width;
+    const nr = Math.sqrt(1 + node.degree) * 3.4;
+    const lx = node.x, ly = node.y + nr + (big ? 10 : 8) / scale;
+    const padX = 5 / scale, h = fs * 1.45;
+    const rect = { x: lx - w / 2 - padX, y: ly - h / 2, w: w + 2 * padX, h };
+    if (placed.some(p => !(rect.x > p.x + p.w || rect.x + rect.w < p.x || rect.y > p.y + p.h || rect.y + rect.h < p.y))) continue;
+    placed.push(rect);
+    ctx.beginPath(); ctx.roundRect(rect.x, rect.y, rect.w, rect.h, 4 / scale);
+    ctx.fillStyle = "rgba(21,18,13,0.74)"; ctx.fill();
+    ctx.fillStyle = (hoverNode && !hl.has(node.id)) ? "rgba(242,239,234,0.25)" : "#F2EFEA";
+    ctx.fillText(label, lx, ly);
+  }
+});
+window.kbGraph = Graph;
+
+document.getElementById("q").addEventListener("keydown", e => {
+  if (e.key !== "Enter") return;
+  const q = e.target.value.trim().toLowerCase();
+  if (!q) return;
+  const n = data.nodes.find(n => n.id.includes(q) || (n.title || "").toLowerCase().includes(q));
+  if (n) { Graph.centerAt(n.x, n.y, 700); Graph.zoom(5, 700); }
+});
+addEventListener("resize", () => { Graph.width(innerWidth).height(innerHeight); });
+</script>
+</body>
+</html>
