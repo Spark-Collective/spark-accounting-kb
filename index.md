@@ -12,14 +12,16 @@ Last updated: 2026-06-26
 
 ### bookkeeping/
 - [[chart-of-accounts-mar]] , the Belgian standardized chart (MAR / PCMN), classes 0-7.
-- _planned: double-entry-basics, journals, document-retention-7y_
+- [[document-retention]] , keep books/invoices 10 years (15-25 for real estate) (verify_live).
+- _planned: double-entry-basics, journals_
 
 ### vat/
 - [[vat-rates-and-regimes]] , VAT rates, the small-enterprise exemption, special regimes (verify_live).
 - [[periodic-vat-return-intervat]] , the periodic BTW return + how it is filed.
 - [[intracommunity-and-medecontractant]] , reverse charge: 0% invoice + mandatory mentions (verify_live).
 - [[peppol-e-invoicing]] , structured B2B e-invoicing mandatory from 2026 (verify_live).
-- _planned: annual-client-listing, ec-sales-list_
+- [[annual-client-listing]] , yearly list of Belgian VAT customers over EUR 250, due 31 Mar (verify_live).
+- [[ec-sales-list]] , periodic intracommunity listing, due the 20th (verify_live).
 
 ### deductible-costs/
 - [[car-and-mobility]] , deductibility of car/mobility costs (verify_live).
