@@ -3,6 +3,8 @@ type: rule
 title: Reverse charge (medecontractant + intracommunity)
 description: When VAT shifts to the customer, the 0% invoice, and the mandatory legal mentions.
 tags: [vat, bv, belgium, verify-live]
+relations:
+  affects: [ec-sales-list, vat-return-grilles]
 sources: [https://financien.belgium.be]
 confidence: medium
 created: 2026-06-26

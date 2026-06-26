@@ -3,6 +3,9 @@ type: workflow
 title: Prepare a periodic VAT return for review
 description: The SOP the agent runs to compile a VAT return; prepare, never file.
 tags: [workflows, vat, intervat, belgium]
+relations:
+  requires: [vat-rates-and-regimes, vat-return-grilles]
+  affects: [periodic-vat-return-intervat]
 sources: [https://financien.belgium.be/nl/E-services/Intervat]
 confidence: high
 created: 2026-06-26

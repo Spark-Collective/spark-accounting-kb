@@ -3,6 +3,8 @@ type: reference
 title: VAT return grilles (the boxes)
 description: The boxes of the Belgian periodic VAT return, grouped; what each one captures.
 tags: [vat, intervat, belgium, verify-live]
+relations:
+  part_of: [periodic-vat-return-intervat]
 sources: [https://financien.belgium.be/nl/E-services/Intervat]
 confidence: medium
 created: 2026-06-26

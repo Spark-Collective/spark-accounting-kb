@@ -69,6 +69,7 @@ Last updated: 2026-06-26
 - [[closing-entries]] , the year-end entry sequence (depreciation, provisions, cut-off, tax).
 
 ### workflows/ (SOPs the agent runs)
+- [[intake]] , scope + onboarding + refusal catalogue (runs first).
 - [[vat-period-prep]] , prepare a periodic VAT return for review (never auto-file).
 - [[booking-a-purchase-invoice]] , capture, split VAT, classify deductibility, book.
 - [[month-end-close]] , monthly routine to get the books complete + reconciled.

@@ -3,6 +3,8 @@ type: rule
 title: When is VAT deductible (the conditions)
 description: Input VAT is recoverable only on a professional purchase, with a correct invoice, for an activity that gives a right to deduction.
 tags: [vat, bv, eenmanszaak, belgium]
+relations:
+  affects: [booking-a-purchase-invoice, vat-period-prep]
 sources: [https://help.astro.tax/nl/articles/10053430-wanneer-is-btw-aftrekbaar-3-belangrijke-voorwaarden, https://financien.belgium.be]
 confidence: medium
 created: 2026-06-26

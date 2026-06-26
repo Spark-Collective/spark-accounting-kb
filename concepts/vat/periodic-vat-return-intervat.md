@@ -18,7 +18,7 @@ A Belgian VAT-registered company files a **periodic VAT return** (monthly or qua
 ## Key facts (verify_live)
 
 - **Frequency:** quarterly is common for a small BV; monthly above a turnover threshold or by option. Confirm the current threshold/deadlines live.
-- **Deadlines:** the return + payment are due by a fixed day of the month following the period. **Verify the exact current dates with [FOD Financiën](https://financien.belgium.be)** , do not rely on a remembered date.
+- **Deadlines (verify_live):** the return + payment are due in the month following the period. Since **2025**, quarterly filers have until the **25th**; monthly filers ~the **20th**. (A 2025 reform also replaced the VAT current account with a **provisierekening** and changed refunds , see [[vat-return-grilles]].) **Confirm the exact current dates with [FOD Financiën](https://financien.belgium.be)**, do not rely on a remembered date.
 - **Channel:** Intervat XML upload, or the **Intervat API** (Spark requested API access; see the workspace note `deployments/sparkos-erpnext/intervat-api-access.md`).
 - Related periodic obligations: the **EC sales list** (intracommunautaire opgave) and the **annual client listing** (klantenlisting).
 
