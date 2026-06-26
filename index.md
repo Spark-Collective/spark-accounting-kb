@@ -33,18 +33,21 @@ Last updated: 2026-06-26
 - [[streaming-subscriptions]] , Spotify etc. only if genuinely professional (verify_live).
 - [[reading-glasses]] , up to 50%, dual-use scrutiny (verify_live).
 - [[international-passport]] , deductible for genuine business travel, with proof.
+- [[fines]] , traffic/other fines paid by the company but never deductible.
 - _planned: gifts-and-relations, home-office, clothing, kilometer-allowance_
 
 ### corporate-tax/
 - [[corporate-tax-basics]] , 25% standard, 20% on first EUR 100k for small companies + conditions (verify_live).
 - [[advance-payments]] , quarterly prepayment to avoid the surcharge (verify_live).
 - [[vvpr-bis-dividends]] , reduced dividend withholding 15% (18% from 1 Jul 2026) + conditions (verify_live).
+- [[director-loan-rekening-courant]] , borrowing from the company; debit-R/C interest (verify_live).
 - _planned: dbi-deduction, liquidation-reserve, notional-interest_
 
 ### payroll-director/
 - [[social-contributions-self-employed]] , RSVZ social contributions for self-employed/director (verify_live).
 - [[director-remuneration]] , salary vs dividend; the EUR 45k threshold (verify_live).
 - [[benefits-in-kind-vaa]] , VAA on car/housing/phone/internet; valuation + forfaits (verify_live).
+- [[per-diem-domestic-travel]] , tax-free meal allowance for Belgian business trips (verify_live).
 
 ### year-end/
 - [[annual-accounts-nbb]] , filing model, 7-month deadline, XBRL, 2026 fees (verify_live).
