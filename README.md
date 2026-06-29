@@ -30,6 +30,16 @@ python3 tools/graph.py --validate                      # typed edges resolve + p
 
 CI runs `--lint` and `--validate` on every PR.
 
+### Visualize it
+
+This KB follows the [Open Knowledge Format](https://github.com/GoogleCloudPlatform/knowledge-catalog/tree/main/okf) (OKF), so it is interoperable with OKF tooling and markdown UIs (Obsidian, MkDocs). Generate a self-contained interactive graph viewer (Cytoscape, no server) , it renders our **typed** edges, labelled and coloured by predicate, with click-to-read:
+
+```bash
+python3 tools/build_viz.py   # writes viz.html , open it in any browser
+```
+
+The viewer pattern follows Google's OKF reference viewer (Apache-2.0); ours is fed by our richer typed `relations:` graph.
+
 ## Contributing
 
 Contributions welcome , see [`CONTRIBUTING.md`](CONTRIBUTING.md). The short version: one concept per file, **distil don't paste**, primary-source the facts, mark changeable facts `verify_live`, link with `[[wikilinks]]`, run the validators, open a small PR.

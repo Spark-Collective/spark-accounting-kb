@@ -96,6 +96,7 @@ Distilled CBN/CNC adviezen that ground the practice pages (citation substrate, n
 - [`taxonomy.md`](taxonomy.md) , controlled tags.
 - [`sources.md`](sources.md) , authoritative external sources + when to consult.
 - [`log.md`](log.md) , changelog.
+- [`tools/build_viz.py`](tools/build_viz.py) , generate an interactive graph viewer (`viz.html`, OKF-compatible, Cytoscape).
 - [`tools/graph.py`](tools/graph.py) , query + validate the typed-edge graph (the `relations:` layer; see AGENTS.md). `python3 tools/graph.py --node <name>` shows a concept's inbound/outbound edges; `--validate` checks integrity.
 
 ## How to grow it
