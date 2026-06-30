@@ -1,7 +1,7 @@
 ---
 type: workflow
 title: Intake (scope + onboarding)
-description: The first step before any booking: scope the engagement, gather facts, decide what is in scope vs hand off.
+description: "The first step before any booking: scope the engagement, gather facts, decide what is in scope vs hand off."
 tags: [workflows, belgium]
 relations:
   part_of: [classification-protocol]

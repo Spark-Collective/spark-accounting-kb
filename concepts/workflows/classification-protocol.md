@@ -1,7 +1,7 @@
 ---
 type: reference
 title: Classification protocol (how the agent behaves under uncertainty)
-description: The decision discipline applied across every booking/tax workflow: conservative defaults + Classified/Assumed/Needs-Input.
+description: "The decision discipline applied across every booking/tax workflow: conservative defaults + Classified/Assumed/Needs-Input."
 tags: [workflows, bookkeeping, belgium]
 sources: []
 confidence: high
